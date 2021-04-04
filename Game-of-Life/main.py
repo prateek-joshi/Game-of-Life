@@ -7,7 +7,7 @@ def create_random_grid():
         of the same shape as the terminal window.
     """
     term = shutil.get_terminal_size()
-    grid = np.random.choice([0,1],(term.lines,term.columns),p=[0.75,0.25])
+    grid = np.random.choice([0,1],(term.lines,term.columns),p=[0.9,0.1])
     return grid
 
 def get_grid_slice(x,y,grid):
@@ -24,24 +24,14 @@ def get_grid_slice(x,y,grid):
     return sliced_grid.tolist()
     
 
-def game_of_life_cell(grid):
+def count_living_cells(grid):
     """
         Returns the number of live cells surrounding the current center.
         
         Inputs: grid (3x3)\n
         Returns: count_lives (int)
     """
-    x,y = len(grid)//2, len(grid[0])//2
-    count_live = 0
-    # return x,y
-    
-    for i in range(x-1,x+2):
-        for j in range(y-1,y+2):
-            if (i==x and j==y):
-                continue
-            count_live += grid[i][j]
-    
-    return count_live
+    return np.sum(grid)
 
 
 def display_grid(grid):
@@ -65,5 +55,6 @@ grid = create_random_grid()
 #     [0,1,0]
 # ]
 display_grid(grid)
+print("Number of active elements: "+str(count_living_cells(grid)))
 # print(get_grid_slice(1,1,grid))
 ###########################
