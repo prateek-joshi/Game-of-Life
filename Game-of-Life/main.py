@@ -1,5 +1,14 @@
-import sys, os
+import shutil
 import numpy as np
+
+def create_random_grid():
+    """
+        Creates and returns a randomly initialized grid 
+        of the same shape as the terminal window.
+    """
+    term = shutil.get_terminal_size()
+    grid = np.random.choice([0,1],(term.lines,term.columns),p=[0.4,0.6])
+    return grid
 
 def get_grid_slice(x,y,grid):
     """
@@ -35,13 +44,6 @@ def game_of_life_cell(grid):
     return count_live
 
 ######## TEST CODE ########
-grid = [
-    [0, 1, 1, 1],
-    [1, 1, 1, 0],
-    [0, 1, 0, 0],
-    [0, 0, 1, 1]
-]
-# print(game_of_life_cell(grid))
-sliced = get_grid_slice(1,1,grid)
-print(sliced)
+grid = create_random_grid()
+
 ###########################
