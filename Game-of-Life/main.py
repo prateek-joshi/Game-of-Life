@@ -7,7 +7,7 @@ def create_random_grid():
         of the same shape as the terminal window.
     """
     term = shutil.get_terminal_size()
-    grid = np.random.choice([0,1],(term.lines,term.columns),p=[0.4,0.6])
+    grid = np.random.choice([0,1],(term.lines,term.columns),p=[0.75,0.25])
     return grid
 
 def get_grid_slice(x,y,grid):
@@ -43,12 +43,27 @@ def game_of_life_cell(grid):
     
     return count_live
 
+
+def display_grid(grid):
+    """
+        Prints the grid in the form of a string.
+        
+        Inputs: grid matrix ([][])
+        Returns: None
+    """
+    print(''.join(str(item) for innerlist in grid for item in innerlist))
+    # for line in grid:
+    #     line = np.array_str(line)
+        # print(''.join(line))
+
+
 ######## TEST CODE ########
-# grid = create_random_grid()
-grid = [
-    [0,1,1],
-    [1,0,0],
-    [0,1,0]
-]
-print(get_grid_slice(1,1,grid))
+grid = create_random_grid()
+# grid = [
+#     [0,1,1],
+#     [1,0,0],
+#     [0,1,0]
+# ]
+display_grid(grid)
+# print(get_grid_slice(1,1,grid))
 ###########################
