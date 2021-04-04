@@ -17,11 +17,11 @@ def get_grid_slice(x,y,grid):
         Inputs: x (int), y (int), grid ([][])
         Returns: sliced_grid(3x3)
     """
-    print(f'x={x} and y={y}')
+    # print(f'x={x} and y={y}')
 
-    sliced_grid = [row[y-1:y+2] for row in grid[x-1:x+2]]
-    # return grid[x-1:x+1][y-1:y+1]
-    return sliced_grid
+    temp_grid = np.array(grid)
+    sliced_grid = temp_grid[x-1:x+2,y-1:y+2]
+    return sliced_grid.tolist()
     
 
 def game_of_life_cell(grid):
@@ -44,6 +44,11 @@ def game_of_life_cell(grid):
     return count_live
 
 ######## TEST CODE ########
-grid = create_random_grid()
-
+# grid = create_random_grid()
+grid = [
+    [0,1,1],
+    [1,0,0],
+    [0,1,0]
+]
+print(get_grid_slice(1,1,grid))
 ###########################
