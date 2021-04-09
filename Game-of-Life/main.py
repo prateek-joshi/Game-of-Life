@@ -1,4 +1,4 @@
-import shutil
+import shutil, time
 import numpy as np
 
 def create_random_grid():
@@ -31,7 +31,7 @@ def count_living_cells(grid):
         Inputs: grid (3x3)\n
         Returns: count_lives (int)
     """
-    return np.sum(grid)
+    return '\nNumber of active elements: '+str(np.sum(grid))
 
 
 def display_grid(grid):
@@ -41,12 +41,20 @@ def display_grid(grid):
         Inputs: grid matrix ([][])
         Returns: None
     """
-    print(''.join(str(item) for innerlist in grid for item in innerlist))
+    return ''.join(str(item) for innerlist in grid for item in innerlist)
     # for line in grid:
     #     line = np.array_str(line)
         # print(''.join(line))
 
 
+def show_output(grid):
+    """
+        Returns all outputs as string. Useful when using dynamic output
+    """
+    op = ''
+    op += display_grid(grid)
+    op += count_living_cells(grid)
+    return op
 ######## TEST CODE ########
 grid = create_random_grid()
 # grid = [
@@ -54,7 +62,8 @@ grid = create_random_grid()
 #     [1,0,0],
 #     [0,1,0]
 # ]
-display_grid(grid)
-print("Number of active elements: "+str(count_living_cells(grid)))
-# print(get_grid_slice(1,1,grid))
+
+print(show_output(grid),end='\r')
+time.sleep(3)
+print('Changed\n')
 ###########################
