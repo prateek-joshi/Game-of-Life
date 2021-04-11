@@ -19,7 +19,7 @@ This implementation is done using a matrix of zeros and ones; one represents *al
 ## Cloning the repository
 
 ```
-git clone https://github.com/prateek-joshi/Game-of-Life
+git clone https://github.com/prateek-joshi/Game-of-Life.git
 ```
 
 
