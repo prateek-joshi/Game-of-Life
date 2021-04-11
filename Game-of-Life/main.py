@@ -49,7 +49,8 @@ def display_grid(grid):
 
 def show_output(grid):
     """
-        Returns all outputs as string. Useful when using dynamic output
+        Returns all outputs as a single string.
+        Useful when using dynamic output.
     """
     op = ''
     op += display_grid(grid)
@@ -62,7 +63,11 @@ grid = create_random_grid()
 #     [1,0,0],
 #     [0,1,0]
 # ]
-
+"""
+\r RETURNS THE CURSOR TO BEGINNING OF CURRENT LINE, N O T PARAGRAPH START.
+WILL NOT WORK. FIND ANOTHER WAY.
+UPDATE - FOUND WAY: COLORAMA MODULE!!! AHHH BOOM BAM BANG HI-YAH.
+"""
 print(show_output(grid),end='\r')
 time.sleep(3)
 print('Changed\n')
