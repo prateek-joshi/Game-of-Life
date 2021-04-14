@@ -1,13 +1,14 @@
 import shutil, time
 import numpy as np
+import matplotlib.pyplot as plt
 
 def create_random_grid():
     """
         Creates and returns a randomly initialized grid 
         of the same shape as the terminal window.
     """
-    term = shutil.get_terminal_size()
-    grid = np.random.choice([0,1],(term.lines,term.columns),p=[0.9,0.1])
+    N = 25
+    grid = np.random.choice([0,1],(N,N),p=[0.9,0.1])
     return grid
 
 def get_grid_slice(x,y,grid):
@@ -24,27 +25,24 @@ def get_grid_slice(x,y,grid):
     return sliced_grid.tolist()
     
 
-def count_living_cells(grid):
+def count_living_cells(sliced_grid):
     """
         Returns the number of live cells surrounding the current center.
         
         Inputs: grid (3x3)\n
         Returns: count_lives (int)
     """
-    return '\nNumber of active elements: '+str(np.sum(grid))
+    return '\nNumber of active elements: '+str(np.sum(sliced_grid)-sliced_grid[1][1])
 
 
-def display_grid(grid):
+def evolve_cell(grid, x, y):
     """
-        Prints the grid in the form of a string.
-        
-        Inputs: grid matrix ([][])
-        Returns: None
+        Returns the evolved version of the cell center.
+        Modifies the gri in place.
     """
-    return ''.join(str(item) for innerlist in grid for item in innerlist)
-    # for line in grid:
-    #     line = np.array_str(line)
-        # print(''.join(line))
+    sliced_grid = get_grid_slice(x,y,grid)
+    print(sliced_grid)
+    print(count_living_cells(sliced_grid))
 
 
 def show_output(grid):
@@ -52,23 +50,16 @@ def show_output(grid):
         Returns all outputs as a single string.
         Useful when using dynamic output.
     """
-    op = ''
-    op += display_grid(grid)
-    op += count_living_cells(grid)
-    return op
+    fig, ax = plt.subplots()
+    ax.imshow(grid, interpolation='nearest')
+    ax.axes.get_xaxis().set_visible(False)
+    ax.axes.get_yaxis().set_visible(False)
+    return fig,ax
+
+
 ######## TEST CODE ########
-grid = create_random_grid()
-# grid = [
-#     [0,1,1],
-#     [1,0,0],
-#     [0,1,0]
-# ]
-"""
-\r RETURNS THE CURSOR TO BEGINNING OF CURRENT LINE, N O T PARAGRAPH START.
-WILL NOT WORK. FIND ANOTHER WAY.
-UPDATE - FOUND WAY: COLORAMA MODULE!!! AHHH BOOM BAM BANG HI-YAH.
-"""
-print(show_output(grid),end='\r')
-time.sleep(3)
-print('Changed\n')
+if __name__=='__main__':
+    grid = create_random_grid()
+    fig, ax = show_output(grid)
+    plt.show()
 ###########################
