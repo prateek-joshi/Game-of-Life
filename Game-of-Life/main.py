@@ -1,6 +1,6 @@
-import shutil, time
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 def create_random_grid():
     """
@@ -25,14 +25,14 @@ def get_grid_slice(x,y,grid):
     return sliced_grid.tolist()
     
 
-def count_living_cells(sliced_grid):
+def count_living_cells(grid):
     """
         Returns the number of live cells surrounding the current center.
         
         Inputs: grid (3x3)\n
         Returns: count_lives (int)
     """
-    return '\nNumber of active elements: '+str(np.sum(sliced_grid)-sliced_grid[1][1])
+    return '\nNumber of active elements: '+str(np.sum(grid))
 
 
 def evolve_cell(grid, x, y):
@@ -45,21 +45,32 @@ def evolve_cell(grid, x, y):
     print(count_living_cells(sliced_grid))
 
 
-def show_output(grid):
-    """
-        Returns all outputs as a single string.
-        Useful when using dynamic output.
-    """
-    fig, ax = plt.subplots()
-    ax.imshow(grid, interpolation='nearest')
-    ax.axes.get_xaxis().set_visible(False)
-    ax.axes.get_yaxis().set_visible(False)
-    return fig,ax
+# def show_output(grid):
+#     fig, ax = plt.subplots()
+#     ax.imshow(grid, interpolation='nearest')
+#     ax.axes.get_xaxis().set_visible(False)
+#     ax.axes.get_yaxis().set_visible(False)
+#     return fig,ax
+
+def update(curr):
+    if curr==100:
+        a.event_source.stop()
+    grid = create_random_grid()
+    plt.cla()
+    plt.gca().imshow(grid, interpolation='nearest')
+    plt.gca().axes.get_xaxis().set_visible(False)
+    plt.gca().axes.get_yaxis().set_visible(False)
+    plt.gca().set_title(count_living_cells(grid))
+    plt.show()
 
 
 ######## TEST CODE ########
 if __name__=='__main__':
-    grid = create_random_grid()
-    fig, ax = show_output(grid)
+    fig = plt.figure()
+    a = animation.FuncAnimation(
+        fig,
+        update,
+        interval=100
+    )
     plt.show()
 ###########################
