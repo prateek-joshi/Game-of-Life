@@ -7,7 +7,7 @@ def create_random_grid():
         Creates and returns a randomly initialized grid 
         of the same shape as the terminal window.
     """
-    N = 25
+    N = 50
     grid = np.random.choice([0,1],(N,N),p=[0.9,0.1])
     return grid
 
@@ -32,13 +32,13 @@ def count_living_cells(grid):
         Inputs: grid (3x3)\n
         Returns: count_lives (int)
     """
-    return '\nNumber of active elements: '+str(np.sum(grid))
+    return 'Number of active elements: '+str(np.sum(grid))
 
 
 def evolve_cell(grid, x, y):
     """
         Returns the evolved version of the cell center.
-        Modifies the gri in place.
+        Modifies the grid in place.
     """
     sliced_grid = get_grid_slice(x,y,grid)
     print(sliced_grid)
@@ -51,26 +51,34 @@ def evolve_cell(grid, x, y):
 #     ax.axes.get_xaxis().set_visible(False)
 #     ax.axes.get_yaxis().set_visible(False)
 #     return fig,ax
-
 def update(curr):
     if curr==100:
         a.event_source.stop()
+    global i
     grid = create_random_grid()
     plt.cla()
     plt.gca().imshow(grid, interpolation='nearest')
     plt.gca().axes.get_xaxis().set_visible(False)
     plt.gca().axes.get_yaxis().set_visible(False)
-    plt.gca().set_title(count_living_cells(grid))
+    plt.gca().set_title(f'{count_living_cells(grid)} - {i}')
     plt.show()
+    i += 1
 
 
 ######## TEST CODE ########
 if __name__=='__main__':
+    i = 0
     fig = plt.figure()
+    grid = create_random_grid()
+    plt.gca().imshow(grid, interpolation='nearest')
+    plt.gca().axes.get_xaxis().set_visible(False)
+    plt.gca().axes.get_yaxis().set_visible(False)
+    plt.gca().set_title(count_living_cells(grid))
+
     a = animation.FuncAnimation(
         fig,
         update,
-        interval=100
+        interval=220
     )
     plt.show()
 ###########################
