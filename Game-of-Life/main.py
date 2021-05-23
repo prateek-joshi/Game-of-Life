@@ -2,65 +2,72 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+N = 100
+
 def create_random_grid():
     """
         Creates and returns a randomly initialized grid 
         of the same shape as the terminal window.
     """
-    N = 50
     grid = np.random.choice([0,1],(N,N),p=[0.9,0.1])
     return grid
-
-def get_grid_slice(x,y,grid):
-    """
-        Returns a 3x3 grid slice for the given cell.
-
-        Inputs: x (int), y (int), grid ([][])
-        Returns: sliced_grid(3x3)
-    """
-    # print(f'x={x} and y={y}')
-
-    temp_grid = np.array(grid)
-    sliced_grid = temp_grid[x-1:x+2,y-1:y+2]
-    return sliced_grid.tolist()
     
 
-def count_living_cells(grid):
+def count_living_cells(grid,i,j):
     """
-        Returns the number of live cells surrounding the current center.
+        Returns the number of live cells surrounding the current center.\n\n
         
-        Inputs: grid (3x3)\n
+        Inputs: grid (3x3), i (int), j (int)\n
         Returns: count_lives (int)
     """
-    return 'Number of active elements: '+str(np.sum(grid))
+    # return np.sum(grid)
+    total = int((grid[i, (j-1)%N] + grid[i, (j+1)%N] +
+                         grid[(i-1)%N, j] + grid[(i+1)%N, j] +
+                         grid[(i-1)%N, (j-1)%N] + grid[(i-1)%N, (j+1)%N] +
+                         grid[(i+1)%N, (j-1)%N] + grid[(i+1)%N, (j+1)%N]))
+    return total
 
 
-def evolve_cell(grid, x, y):
+
+def evolve(grid):
     """
-        Returns the evolved version of the cell center.
-        Modifies the grid in place.
+        Returns the evolved version of the grid by following\n
+        the rules of the Game of Life.
     """
-    sliced_grid = get_grid_slice(x,y,grid)
-    print(sliced_grid)
-    print(count_living_cells(sliced_grid))
+    new_grid = grid.copy()
+    for row in range(1,N):
+        for column in range(1,N):
+            # print(row,column)
+            if grid[row][column] == 0:   # Cell is dead
+                if count_living_cells(grid,row,column) == 3:   # Neighbouring cells are exactly three
+                    # print('Neigboring cells = 3')
+                    new_grid[row][column] = 1   # Cell turns alive
+            
+            elif grid[row][column] == 1:    # Cell is alive
+                if count_living_cells(grid,row,column) < 2:    # Cell neigbours are less than two or greater than three die
+                    # print('Neigboring cells = less than 2')
+                    new_grid[row][column] = 0
+                elif count_living_cells(grid,row,column) > 3:
+                    # print('Neigboring cells = more than 3')
+                    new_grid[row][column] = 0
+        
+    return new_grid
 
 
-# def show_output(grid):
-#     fig, ax = plt.subplots()
-#     ax.imshow(grid, interpolation='nearest')
-#     ax.axes.get_xaxis().set_visible(False)
-#     ax.axes.get_yaxis().set_visible(False)
-#     return fig,ax
 def update(curr):
-    if curr==100:
+    """
+        Called multiple times by the FuncAnimation function.\n
+        Plots the new grid on the axes.
+    """
+    if curr==300:
         a.event_source.stop()
-    global i
-    grid = create_random_grid()
+    global i, grid
     plt.cla()
+    grid = evolve(grid)
     plt.gca().imshow(grid, interpolation='nearest')
     plt.gca().axes.get_xaxis().set_visible(False)
     plt.gca().axes.get_yaxis().set_visible(False)
-    plt.gca().set_title(f'{count_living_cells(grid)} - {i}')
+    plt.gca().set_title(f'Iteration No. {i+1}\nNumber of living cells: {np.sum(grid)}')
     plt.show()
     i += 1
 
@@ -73,12 +80,12 @@ if __name__=='__main__':
     plt.gca().imshow(grid, interpolation='nearest')
     plt.gca().axes.get_xaxis().set_visible(False)
     plt.gca().axes.get_yaxis().set_visible(False)
-    plt.gca().set_title(count_living_cells(grid))
+    plt.gca().set_title(f'Number of living cells: {np.sum(grid)}')
 
     a = animation.FuncAnimation(
         fig,
         update,
-        interval=220
+        interval=250
     )
     plt.show()
 ###########################
