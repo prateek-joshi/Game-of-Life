@@ -35,8 +35,8 @@ def evolve(grid):
         the rules of the Game of Life.
     """
     new_grid = grid.copy()
-    for row in range(1,N):
-        for column in range(1,N):
+    for row in range(N):
+        for column in range(N):
             # print(row,column)
             if grid[row][column] == 0:   # Cell is dead
                 if count_living_cells(grid,row,column) == 3:   # Neighbouring cells are exactly three
@@ -64,7 +64,7 @@ def update(curr):
     global i, grid
     plt.cla()
     grid = evolve(grid)
-    plt.gca().imshow(grid, interpolation='nearest')
+    plt.gca().imshow(grid, interpolation='nearest', cmap='inferno')
     plt.gca().axes.get_xaxis().set_visible(False)
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.gca().set_title(f'Iteration No. {i+1}\nNumber of living cells: {np.sum(grid)}')
@@ -77,10 +77,10 @@ if __name__=='__main__':
     i = 0
     fig = plt.figure()
     grid = create_random_grid()
-    plt.gca().imshow(grid, interpolation='nearest')
+    plt.gca().imshow(evolve(grid), interpolation='nearest', cmap='inferno')
     plt.gca().axes.get_xaxis().set_visible(False)
     plt.gca().axes.get_yaxis().set_visible(False)
-    plt.gca().set_title(f'Number of living cells: {np.sum(grid)}')
+    plt.gca().set_title(f'Number of living cells: {np.sum(evolve(grid))}')
 
     a = animation.FuncAnimation(
         fig,
