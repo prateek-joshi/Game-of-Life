@@ -6,9 +6,9 @@ The [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life), also 
 
 ## Rules
 
-The Game of Life consists of a two dimensional grid (usually squares) consisting of **cells**, which are in either of two states: alive, or dead. Each cell interacts with its adjacent neighbours; at each step in time, the following transitions can occur:
-1  Any live cell with two or three live neighbours survives.
-2. Any dead cell with three live neighbours becomes a live cell.
+The Game of Life consists of a two dimensional grid (usually squares) consisting of **cells**, which are in either of two states: alive, or dead. Each cell interacts with its adjacent neighbours; at each step in time, the following transitions can occur:<br/>
+1  Any live cell with two or three live neighbours survives.<br/>
+2. Any dead cell with three live neighbours becomes a live cell.<br/>
 3. All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 
 
