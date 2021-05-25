@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from numpy.core.fromnumeric import repeat
 
 N = 100
 
@@ -59,7 +60,7 @@ def update(curr):
         Called multiple times by the FuncAnimation function.\n
         Plots the new grid on the axes.
     """
-    if curr==300:
+    if curr==100:
         a.event_source.stop()
     global i, grid
     plt.cla()
@@ -85,7 +86,10 @@ if __name__=='__main__':
     a = animation.FuncAnimation(
         fig,
         update,
-        interval=250
+        frames=100,
+        interval=240,
+        repeat = False
     )
     plt.show()
+    
 ###########################
